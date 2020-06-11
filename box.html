@@ -28,12 +28,26 @@
     <!-- Unitpay -->
     <meta name="verification" content="ce916a6c3a313e568546f66654ee5e">
     <script src="./statics/js/qrcode.js"></script>
+    <script>
+        var viewData = {"viewnSuffix":"340x250.png",
+    "addedItemImgSuffix":"160x108.png",
+    "upgradableDrops":[],
+    "itemsForUpgrade":{
+        "count":3450,
+        "data":[]},
+    "soundsType":"music",
+    "aliases":{"web":"\/","cdn":"\/\/cdn.skin.club\/"},
+    "flash":[],
+    "general":{"language":{"current":"zh-CN","default":"en"},
+    "user":[{}]}};
+    </script>
 <style>
     #pay_qrcode{
             text-align: center;
             margin-top: 20px;
             text-align: -webkit-center;
         }
+    
 </style>
 </head>
 
@@ -423,20 +437,20 @@
                                     </div>
                                 </div>
                                 <div class="case-need-money" style="display: none">
-                                    <p class="case-need-money__attention"></p>
+                                    <p class="case-need-money__attention">资金不足！</p>
                                     <p class="case-text">
                                         要打开这个武器值，请先通过以下方式充值
                                         <span class="case-text-money"></span>
                                         $
                                     </p>
                                     <div class="case-need-money__btn-wrap">
-                                        <form action="/pay" class="replenish-form-case">
+                                        <form  class="replenish-form-case">
                                             <p class="error-text">最低充值金额为 1 美元</p>
                                             <input name="amount" class="replenish-input-case" required type="number" placeholder="输入金额">
                                             <div class="main-button-wrapper violet">
-                                                <button class="main-button violet-btn deposit-btn" type="submit">
+                                                <div class="main-button violet-btn" style="cursor: pointer;" onclick="showDeposit(true)">
                                                     <span class="for-icon">存款</span>
-                                                </button>
+                                                </div>
                                             </div>
                                         </form>
                                         <!--<div class="main-button-wrapper orange">
@@ -453,18 +467,18 @@
                                                 <span class="for-icon">正常购买</span>
                                             </div>
                                         </div>
-                                        <!-- <div class="main-button-wrapper orange">
-                                            <div class="case-can-open__open-f case_open_btn main-button orange-btn">
+                                        <div class="main-button-wrapper orange">
+                                            <div class="case-can-open__open-f case_open_btn main-button orange-btn" @click="buy()">
                                                 <span class="for-icon">快速购买</span>
                                             </div>
-                                        </div> -->
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                             <div class="roulette-block rulette" style="display: none" >
                                 <div class="subject-roulette">
                                     <div class="rulette-row rulette_row" style="height: 350px;position: relative">
-                                        <ul class="rulette_items" id="rulette_items" style="width: 1200px;height: 250px;overflow: hidden;position: absolute;left: 0px;">
+                                        <ul class="rulette_items" id="rulette_items" style="width: 1200px;height: 255px;overflow: hidden;position: absolute;left: 0px;">
                                             <li v-for="weapon in data2" :data-index="weapon.id" class="box" style="position: absolute;">
                                                 <div class="roulette-subject" :style="gunBackground(weapon.type)">
                                                     <img :src="weapon.imageUrl" :alt="weapon.type" class='roulette-gun'>
@@ -506,11 +520,11 @@
                                             </span>
                                         </button>
                                     </div>
-                                    <!--<div class="main-button-wrapper violet">
-                                        <a class="main-button violet-btn make_upgrade" href="#" href_tpl="/zh-cn/upgrade?drop_id=XXX">
+                                    <div class="main-button-wrapper violet">
+                                        <a class="main-button violet-btn make_upgrade" href="upgrade.html">
                                             <span class="for-icon">前往升级</span>
                                         </a>
-                                    </div>-->
+                                    </div>
                                 </div>
                                 <div class="win-text">
                                     <span class="win-text__congrad">
@@ -642,6 +656,7 @@
     <script src="statics/js/anime.min.js"></script>
     <script src="statics/js/sock.js"></script>
     <script src="statics/js/stomp.js"></script>
+
     <script>
         if(JSON.parse(window.sessionStorage.getItem('user'))){
                 axios.post('http://121.36.199.219:8080/players/selectPlayerArms',{id: JSON.parse(window.sessionStorage.getItem('user')).id}).then(function (response) {
@@ -747,7 +762,16 @@
                 var boxId = getQueryVariable("id");
                 axios.post("http://121.36.199.219:8080/box/selectBoxArms",{boxId:boxId}).then(function (response) {
                     vm.data1 = response.data.body;
-                    vm.data2 = response.data.body.armsList;
+                    let tmparr1 = [];
+                    let tmparr2 = [];
+                    response.data.body.armsList.forEach((item, index) => {
+                        if(index % 2 === 0) {
+                            tmparr1.push(item);
+                        }else{  
+                            tmparr2.push(item);
+                        }
+                    });
+                    vm.data2 = tmparr1.concat(tmparr2);
                 }).catch(function (reason) {
                     console.log(reason);
                 })
@@ -758,7 +782,7 @@
                     return "background-image: url("+boxPic+")";
                 },
                 gunBackground:function(arg){
-                    return "background-image: url('statics/image/gun-bg-"+arg+".png')";
+                    return "background-image: url('statics/image/gun-bg-"+arg+".png');";
                 },
                 buy:function () {
                     var boxId = getQueryVariable("id");
@@ -772,7 +796,7 @@
                             var leftTotal = parseFloat($("#account").text())-parseFloat(vm.data1.price);
                             $("#account").text(leftTotal);
                             vm.data3 = response.data.body;
-                            console.log(response.data.body)
+                     
                             vm.data2.forEach((item, i)=>{
                                 if(item.id === vm.data3.id){
                                     winWeaponIndex = i;
@@ -817,6 +841,7 @@
                                 setTimeout(function () {
                                     $(".roulette-block").hide();
                                     $(".subject-winner").show();
+                                    $(".case_win_wrap").addClass('win_block_c' + vm.data3.type);
                                 },1000)
                             },rouletteTime);
                             let oldUser = JSON.parse(window.sessionStorage.getItem('user'));
@@ -858,6 +883,7 @@
                 }
             }
         })
+        
         document.getElementById('pay').onclick = () => {
                 axios.post(`http://121.36.199.219:8080/zfb/alipay?amount=${document.getElementById('payment__input').value}&&playerId=${JSON.parse(window.sessionStorage.getItem('user')).id}`,{}).then(function (response) {
                     qrcode = new QRCode("pay_qrcode", {
@@ -911,11 +937,12 @@
                     var availableMoney = parseFloat(data.account.availableMoney);
                     $("#account").text(availableMoney);
                     $(".before-open").removeClass("need_auth").addClass("can_open");
-                        var needMoney = parseFloat(vm.data1.boxPrice);
+                        var needMoney = parseFloat(vm.data1.price);
                     if (availableMoney < needMoney) {
                         $(".case-need-auth,.case-can-open").hide();
                         $(".case-need-money").show();
                         $(".case-text-money").text(needMoney-availableMoney);
+                        $(".before-open").removeClass("can_open").addClass("need_money");
                     }else{
                         $(".case-can-open").show();
                         $(".case-need-money,.case-need-auth").hide();
@@ -928,7 +955,7 @@
             
         }
         //充值
-        function showDeposit() {
+        function showDeposit(flag) {
             $("#replenish-popup").show();
             $(window).resize(function () {
                 res();
@@ -938,6 +965,10 @@
                 var width = (parseInt($(document).width())-parseInt($("#replenish-popup").width()))/2;
                 var height = (parseInt($(window).height())-parseInt($("#replenish-popup").height()))/2;
                 $("#replenish-popup").css({"right":width,"top":height});
+            }
+
+            if(flag) {
+                $('#payment__input').val($('.replenish-input-case').val());
             }
 
         }

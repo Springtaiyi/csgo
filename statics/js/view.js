@@ -30,7 +30,7 @@ $(function () {
         $().Roulette('loadBigIcons');
     }
 
-    dlEvents.caseVeiw();
+    // dlEvents.caseVeiw();
     var beforeOpenDiv = $('.before-open');
     var rouletteDiv = $('.rulette');
     var rouletteItemsDiv = $('.rulette_items');
