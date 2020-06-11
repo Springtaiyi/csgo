@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width-device-width,initial-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="sie-edge" />
+<link rel="stylesheet" type="text/css" href="statics/css/login.css">
+<title>登录注册页面</title>
+
+<!--图标库-->
+<script src="https://unpkg.com/ionicons@4.2.2/dist/ionicons.js"></script>
+
+</head>
+
+<body>
+
+<div class="container" id="container">
+  <div class="form-container sign-up-container">
+    <form action="#" id="frm-reg">
+      <h1>注 册</h1>
+      <div class="social-container"> <!--<a href="#" class="social">
+        <ion-icon name="logo-facebook"></ion-icon>
+        </a> <a href="#" class="social"> 
+        <ion-icon name="logo-googleplus"></ion-icon>
+        </a> <a href="#" class="social">
+        <ion-icon name="logo-linkedin"></ion-icon>
+        </a>--> </div>
+      <!--<span>使用您的邮箱注册</span>-->
+      <input type="email" id="email" name="email" placeholder="邮箱" required>
+      <input type="text" id="code" name="code" placeholder="邮箱验证码" required>
+      <input type="password" id="password" name="password" placeholder="密码" required>
+      <input type="button" id="but" value="获取验证码"/>
+      <input type="button" value="注册" id="register">
+    </form>
+  </div>
+  <div class="form-container sign-in-container">
+    <form action="#" id="frm-reset" style='display: none;'>
+      <h1>修改密码</h1>
+      <div class="social-container"> <!--<a href="#" class="social">
+        <ion-icon name="logo-facebook"></ion-icon>
+        </a> <a href="#" class="social"> 
+        <ion-icon name="logo-googleplus"></ion-icon>
+        </a> <a href="#" class="social">
+        <ion-icon name="logo-linkedin"></ion-icon>
+        </a>--> </div>
+      <!--<span>使用您的邮箱注册</span>-->
+      <input type="email" id="femail" name="email" placeholder="邮箱" required>
+      <input type="text" id="fcode" name="code" placeholder="邮箱验证码" required>
+      <input type="password" id="fpassword" name="password" placeholder="密码" required>
+      <input type="button" id="fbut" value="获取验证码"/>
+      <input type="button" value="修改密码" id="forgetPwd">
+    </form>
+    <form action="#" id="frm-login">
+      <h1>第三方登录</h1>
+      <div class="social-container"> <a href="#" class="social">
+        <ion-icon name="logo-steam" ></ion-icon>
+        </a> <!--<a href="#" class="social">
+        <ion-icon name="logo-googleplus"></ion-icon>
+        </a> <a href="#" class="social">
+        <ion-icon name="logo-linkedin"></ion-icon>
+        </a>--> </div>
+      <span>或用邮箱登录</span>
+      <input type="email" id="lemail" name="email" placeholder="邮箱" required>
+      <input type="password" id="lpassword" name="loginPassword" placeholder="密码" required>
+      <input type="button" value="登录" id="login">
+      <div class='frm-forgetPwd-btn'>
+        <a id="frmForgetPwdBtn">忘记密码</a>
+      </div>
+    </form>
+  </div>
+  <div class="overlay-container">
+    <div class="overlay">
+      <div class="overlay-panel overlay-left">
+        <h1>欢迎回来</h1>
+        <p>与我们保持联系请登录您的个人信息</p>
+        <button class="ghost" id="signIn">登录</button>
+      </div>
+      <div class="overlay-panel overlay-right">
+        <h1>欢迎光临</h1>
+        <p>输入您的个人资料，并与我们一起开始旅程</p>
+        <button class="ghost" id="signUp">注册</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script  src="statics/js/login.js"></script>
+<script src="statics/js/jquery-1.11.0.min.js"></script>
+<script>
+
+  //邮箱注册发送验证码
+  var email = "";
+  $("#but").click(function () {
+      email = $("#email").val();
+      if (email == null || email == "") {
+          alert("请输入邮箱地址！");
+          return;
+      }
+      // $.post("http://121.36.199.219:8080/players/getCode",{number: email},callback1, 'json');
+      function callback1(data){
+          if(data.message === 'success') {
+            alert('已发送');
+          }else{
+            alert('发送失败');
+          }
+      }
+      $.ajax({
+          url: "http://121.36.199.219:8080/players/getCode",
+          type: 'post',
+          dataType: 'json',
+          data: JSON.stringify({number: email}),
+          cache: false,
+          headers: { 
+              'Content-Type': 'application/json'  //application/x-www-form-urlencoded  application/json
+          },                
+          success: callback1,
+          error: function(e) {
+
+          }
+      });
+  })
+  $("#fbut").click(function () {
+      email = $("#email").val();
+      if (email == null || email == "") {
+          alert("请输入邮箱地址！");
+          return;
+      }
+      // $.post("http://121.36.199.219:8080/players/getCode",{number: email},callback1, 'json');
+      function callback1(data){
+          if(data.message === 'success') {
+            alert('已发送');
+          }else{
+            alert('发送失败');
+          }
+      }
+      $.ajax({
+          url: "http://121.36.199.219:8080/players/getCode",
+          type: 'post',
+          dataType: 'json',
+          data: JSON.stringify({number: email}),
+          cache: false,
+          headers: { 
+              'Content-Type': 'application/json'  //application/x-www-form-urlencoded  application/json
+          },                
+          success: callback1,
+          error: function(e) {
+
+          }
+      });
+  })
+
+  //注册
+  $("#register").click(function () {
+      var code = $("#code").val();
+      if(code == null || code == ""){
+          alert("请输入验证码！");
+          return;
+      }
+      var password = $("#password").val();
+      if (password == null || password == "") {
+          alert("请输入密码！");
+          return;
+      }
+      // $.post("/register","code="+code+"&email="+email+"&loginPasswd="+password,callback2);
+      $.ajax({
+          url: "http://121.36.199.219:8080/players/register",
+          type: 'post',
+          dataType: 'json',
+          data: JSON.stringify({number: email, code: code, pwd: password}),
+          cache: false,
+          headers: { 
+              'Content-Type': 'application/json'  //application/x-www-form-urlencoded  application/json
+          },                
+          success: callback2,
+          error: function(e) {
+
+          }
+      });
+      function callback2(data){
+          if(data.message === 'success') {
+            alert('注册成功');
+          }else{
+            alert('注册失败');
+          }
+      }
+  })
+
+  //登录
+  $("#login").click(function () {
+      var lemail = $("#lemail").val();
+      if (lemail == null || lemail == "") {
+          alert("请输入邮箱地址！");
+          return;
+      }
+
+      var lpassword = $("#lpassword").val();
+      if (lpassword == null || lpassword == "") {
+          alert("请输入密码！");
+          return;
+      }
+      $.ajax({
+          url: "http://121.36.199.219:8080/players/login",
+          type: 'post',
+          dataType: 'json',
+          data: JSON.stringify({number: lemail, pwd: lpassword}),
+          cache: false,
+          headers: { 
+              'Content-Type': 'application/json'  //application/x-www-form-urlencoded  application/json
+          },                
+          success: callback3,
+          error: function(e) {
+
+          }
+      });
+      function callback3(data){
+          if (data.message == "success"){
+            window.sessionStorage.setItem('user', JSON.stringify(data.body.userInfo));
+              location.href = '/csgo/index.html';
+
+              alert("登录成功！");
+              
+          }else if(data.message == "fail"){
+              alert("账号或密码错误！");
+          }else {
+              alert("登录错误！");
+          }
+      }
+  })
+  $("#frmForgetPwdBtn").click(function(){
+    $("#frm-reset").show();
+    $("#frm-login").hide();
+  })
+  //忘记密码
+  $("#forgetPwd").click(function () {
+    var code = $("#fcode").val();
+      if(code == null || code == ""){
+          alert("请输入验证码！");
+          return;
+      }
+      var password = $("#fpassword").val();
+      if (password == null || password == "") {
+          alert("请输入密码！");
+          return;
+      }
+      // $.post("/register","code="+code+"&email="+email+"&loginPasswd="+password,callback2);
+      $.ajax({
+          url: "http://121.36.199.219:8080/players/updatePlayers",
+          type: 'post',
+          dataType: 'json',
+          data: JSON.stringify({number: email, code: code, pwd: password}),
+          cache: false,
+          headers: { 
+              'Content-Type': 'application/json'  //application/x-www-form-urlencoded  application/json
+          },                
+          success: callback4,
+          error: function(e) {
+
+          }
+      });
+      function callback4(data){
+          if(data.message === 'success') {
+            alert('修改成功');
+            $("#frm-reset").hide();
+            $("#frm-login").show();
+          }else{
+            alert('修改失败');
+          }
+      }
+  })
+</script>
+	
+</body>
+</html>
