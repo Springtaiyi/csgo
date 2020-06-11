@@ -98,65 +98,6 @@
 		.time-item{
 			margin-left: 30px;
 		}
-		
-		/**升级*/
-		.upgrade-box{
-			width: 100%;
-			display: flex;
-			flex-direction: row;
-			justify-content: flex-start;
-			flex-wrap: wrap;
-		}
-		.upgrade-box .upgrade-item{
-			width: 40%;
-			height: 200px;
-			display: flex;
-			flex-direction: row;
-			justify-content: flex-start;
-		}
-		.upgrade-item .upgrade-left-item{
-			width: 200px;
-			height: 200px;
-			display: flex;
-			flex-direction: column;
-			justify-content: flex-start;
-			align-items: center;
-			background: #201C32;
-		}
-		.upgrade-left-item .left-item-top{
-			width: 100%;
-			height:50px;
-			display:flex;
-			flex-direction: row;
-			justify-content: flex-end;
-			float: right;
-		}
-		.upgrade-left-item .left-item-top span{
-			height: 15px;
-			font-size: 8px;
-			color: #06D6A0;
-			font-weight: 400;
-			line-height: 12px;
-			display: flex;
-			flex-direction: row;
-			justify-content: center;
-			align-items: center;
-			border-radius: 15px;
-			border: 1px solid #06D6A0;
-			padding-left: 5px;
-			padding-right: 5px;
-			margin-right: 5px;
-			margin-top: 5px;
-		}
-		.upgrade-left-item img{
-			width: 150px;
-			height: 150px;
-			overflow: hidden;
-		}
-		.upgrade-left-item span{
-			font-size: 3px;
-			color: #FFF;
-		}
     </style>
 </head>
 <script src="./statics/js/qrcode.js"></script>
@@ -769,129 +710,38 @@
             </div>
 			
 			<!--升级物品页-->
-			<div class="items-grid-wrapper show-block">
+			<div class="items-grid-wrapper show-block" v-if="tabType == 2">
 				<div class="upgrade-grid">
-					<div class="upgraded-item" style="opacity: unset;">
+					<div class="upgraded-item" style="opacity: unset;" v-for="(item,index) in upgrades" :key="index">
 						<div class="upgrade-item profile-upgrade viewn_3" style="height: 200px;">
 							<div class="upgrade-item__img">
-								<img src="statics/image/ak-47.png" alt>
+								<img :src="item.imageUrl" alt>
 							</div>
-							<div class="upgrade-item__price">$1.36 </div>
-							<div style="bottom:40px;position: absolute;color: #d26e35;font-size: 12px;display: block;width: 100%;text-align: center;">StatTrak</div>
-							<div style="bottom:27px;position: absolute;color: #FFFFFF;font-size: 12px;display: block;width: 100%;text-align: center;">SSG 08 </div>
-							<div style="bottom:15px;position: absolute;color: #cee8fe;font-size: 12px;display: block;width: 100%;text-align: center;">Dark Water </div>
-							<div style="bottom: 3px;position: absolute;color: #777a99;font-size: 11px;display: block;width: 100%;text-align: center;">Field-Tested  </div>
+							<div class="upgrade-item__price">￥{{item.price}} </div>
+							<div style="bottom:20px;position: absolute;color: #d26e35;font-size: 12px;display: block;max-width: 80%;text-align: center;">{{item.name}}</div>
 						</div>
 						
 						<div class="upgraded-item__right" style="height: 202px;">
 							<div class="upgraded-item__result-info">
 								<span class="upgraded-item__result win">
-									<span class="dot"></span>
-									<span class="text">胜利</span>
+									<span class="dot" v-if="item.isStatus == 4"></span>
+									<span class="dot" style="background: #BD2130;" v-if="item.isStatus == 3"></span>
+									<span class="text" style="color: #BD2130;" v-if="item.isStatus == 3">失败</span>
+									<span class="text" v-if="item.isStatus == 4">胜利</span>
 								</span>
-								<span class="upgraded-item__chance">49% (x2)</span>
+								<span class="upgraded-item__chance"></span>
 								<p class="upgraded-item__amount-spent">
-									1 件物品，金额为
-									<span class="price">$0.66 </span>
+									金额为
+									<span class="price">￥{{item.prices}} </span>
 								</p>
 							</div>
 							<div class="upgraded-item__items-holder">
 								<div class="upgraded-item__items">
 									<div class="upgraded-item__item viewn_3">
 										<div class="upgraded-item__item-img">
-											<img src="statics/image/ak-47.png" />
+											<img :src="item.imageUrls" alt>
 										</div>
-										<p style="margin-top:0px;position: absolute;color: #d3cded;font-size: 12px;display: block;width: 100%;text-align: center;">MAC-10</p>
-										<p style="margin-top:13px;position: absolute;color: #9e99b5;font-size: 12px;display: block;width: 100%;text-align: center;">Aloha</p>
-										<p style="margin-top:25px;position: absolute;color: #777a99;font-size: 12px;display: block;width: 100%;text-align: center;">Field-Tested</p>
-									</div>
-								</div>
-								<div class="upgraded-item__show-all-btn">
-									<button type="button">
-										<p>Show all</p>
-									</button>
-								</div>
-							</div>
-						</div>
-					</div>
-					
-					<div class="upgraded-item" style="opacity: unset;">
-						<div class="upgrade-item profile-upgrade viewn_3" style="height: 200px;">
-							<div class="upgrade-item__img">
-								<img src="statics/image/ak-47.png" alt>
-							</div>
-							<div class="upgrade-item__price">$1.36 </div>
-							<div style="bottom:40px;position: absolute;color: #d26e35;font-size: 12px;display: block;width: 100%;text-align: center;">StatTrak</div>
-							<div style="bottom:27px;position: absolute;color: #FFFFFF;font-size: 12px;display: block;width: 100%;text-align: center;">SSG 08 </div>
-							<div style="bottom:15px;position: absolute;color: #cee8fe;font-size: 12px;display: block;width: 100%;text-align: center;">Dark Water </div>
-							<div style="bottom: 3px;position: absolute;color: #777a99;font-size: 11px;display: block;width: 100%;text-align: center;">Field-Tested  </div>
-						</div>
-						
-						<div class="upgraded-item__right" style="height: 202px;">
-							<div class="upgraded-item__result-info">
-								<span class="upgraded-item__result win">
-									<span class="dot"></span>
-									<span class="text">胜利</span>
-								</span>
-								<span class="upgraded-item__chance">49% (x2)</span>
-								<p class="upgraded-item__amount-spent">
-									1 件物品，金额为
-									<span class="price">$0.66 </span>
-								</p>
-							</div>
-							<div class="upgraded-item__items-holder">
-								<div class="upgraded-item__items">
-									<div class="upgraded-item__item viewn_3">
-										<div class="upgraded-item__item-img">
-											<img src="statics/image/ak-47.png" />
-										</div>
-										<p style="margin-top:0px;position: absolute;color: #d3cded;font-size: 12px;display: block;width: 100%;text-align: center;">MAC-10</p>
-										<p style="margin-top:13px;position: absolute;color: #9e99b5;font-size: 12px;display: block;width: 100%;text-align: center;">Aloha</p>
-										<p style="margin-top:25px;position: absolute;color: #777a99;font-size: 12px;display: block;width: 100%;text-align: center;">Field-Tested</p>
-									</div>
-								</div>
-								<div class="upgraded-item__show-all-btn">
-									<button type="button">
-										<p>Show all</p>
-									</button>
-								</div>
-							</div>
-						</div>
-					</div>
-					
-					<div class="upgraded-item" style="opacity: unset;">
-						<div class="upgrade-item profile-upgrade viewn_3" style="height: 200px;">
-							<div class="upgrade-item__img">
-								<img src="statics/image/ak-47.png" alt>
-							</div>
-							<div class="upgrade-item__price">$1.36 </div>
-							<div style="bottom:40px;position: absolute;color: #d26e35;font-size: 12px;display: block;width: 100%;text-align: center;">StatTrak</div>
-							<div style="bottom:27px;position: absolute;color: #FFFFFF;font-size: 12px;display: block;width: 100%;text-align: center;">SSG 08 </div>
-							<div style="bottom:15px;position: absolute;color: #cee8fe;font-size: 12px;display: block;width: 100%;text-align: center;">Dark Water </div>
-							<div style="bottom: 3px;position: absolute;color: #777a99;font-size: 11px;display: block;width: 100%;text-align: center;">Field-Tested  </div>
-						</div>
-						
-						<div class="upgraded-item__right" style="height: 202px;">
-							<div class="upgraded-item__result-info">
-								<span class="upgraded-item__result win">
-									<span class="dot"></span>
-									<span class="text">胜利</span>
-								</span>
-								<span class="upgraded-item__chance">49% (x2)</span>
-								<p class="upgraded-item__amount-spent">
-									1 件物品，金额为
-									<span class="price">$0.66 </span>
-								</p>
-							</div>
-							<div class="upgraded-item__items-holder">
-								<div class="upgraded-item__items">
-									<div class="upgraded-item__item viewn_3">
-										<div class="upgraded-item__item-img">
-											<img src="statics/image/ak-47.png" />
-										</div>
-										<p style="margin-top:0px;position: absolute;color: #d3cded;font-size: 12px;display: block;width: 100%;text-align: center;">MAC-10</p>
-										<p style="margin-top:13px;position: absolute;color: #9e99b5;font-size: 12px;display: block;width: 100%;text-align: center;">Aloha</p>
-										<p style="margin-top:25px;position: absolute;color: #777a99;font-size: 12px;display: block;width: 100%;text-align: center;">Field-Tested</p>
+										<p style="margin-top:5px;position: absolute;color: #d3cded;font-size: 12px;display: block;width: 100%;text-align: center;">{{item.names}}</p>
 									</div>
 								</div>
 								<div class="upgraded-item__show-all-btn">
@@ -904,27 +754,37 @@
 					</div>
 				</div>
 				
+				
+				<div class="load_more_wrap ">
+				    <button class="main-button more button button-load-more drops" data-total="24" @click="bindLoadUpgrade">
+				        <span class="load_more_count">
+				            加载更多 
+				        </span>
+				        <i class="icon icon-spin-arrow"></i>
+				    </button>
+				</div>
 			</div>
 
-            <div class="show-content">
+            <div class="show-content" v-if="tabType == 1">
 				
                 <div class="items-grid-wrapper show-block" data-item-type="drops">
 					
 					<!--tab页-->
 					<div class="drops-buttons-block" style="display: flex;flex-direction: row;justify-content: flex-start;align-items: center;margin-left: 75px;">
-						<button class="button button-sell-all small-btn sell-all inactive">
+						<button  @click="bindAramButton(1)" class="button button-sell-all small-btn sell-all"
+						:class="dropType == 1 ? 'inactive':''">
 							以下列价格出售全部:￥
-							<span>0.00</span>
+							<span>{{totalPrice}}</span>
 						</button>
 						
-						<a href="#" class="button button-upgrade-all all-to-upgrade small-btn inactive" style="margin-left: 30px;">
+						<a href="upgrade.html?type=1" class="button button-upgrade-all all-to-upgrade small-btn" style="margin-left: 30px;">
 							全部升级
 							<i class="icon icon-upgrade3"></i>
 						</a>
 						
 						<div class="switcher two-options" style="margin-left: 30px;">
 							<label for="available-for-sale" class="text-uppercase">
-								<input type="checkbox" id="available-for-sale"/>
+								<input type="checkbox" id="available-for-sale" @input="bindInput(saleType)"/>
 								<strong class="first-option-text">所有物品</strong>
 								<span class="marker"></span>
 								<strong class="second-option-text">有效物品</strong>
@@ -932,7 +792,7 @@
 						</div>
 					</div>
 					
-                    <div class="items-grid" id="items_grid">
+                    <div class="items-grid" id="items_grid" style="margin-top: 30px;">
                             <div class="loot-item" data-id="15833069" v-for="item in boxes">
     <div :class="generateCaseStyle(item)" data-id="15833069" >
         <div class="img-wrapper">
@@ -1177,6 +1037,7 @@
                     guestInfo:{"name":null,"picPath":"https://steamcdn-a.akamaihd.net/steamcommunity/public/images/avatars/c5/c555920a0cafc0c52d741ae09ff01d3a24857ee2_full.jpg",
                         "account":0,},
                     boxes:[],
+					upgrades:[],
                     bestRecord:null,
                     openBoxRecord:null,
                     avatarUrl: '',
@@ -1184,7 +1045,10 @@
 					pageNum:1,
 					pageSize:6,
 					totalPage:null,
-					tabType:1
+					tabType:1,
+					totalPrice:0,
+					dropType:0,
+					saleType:0, //0是全部，1是
                 },
 				
 				created:function(){
@@ -1257,12 +1121,59 @@
                 },
                 methods:{
 					/**
+					 * bindInput
+					 */
+					bindInput(type){
+						let that = this;
+						let saleType = type == 0 ? 1:0;
+						
+						that.saleType = saleType;
+						
+						let id = that.userInfo.id;
+						
+						if(Number(type) == 0){
+							that.getDROPSList(id,1,that.pageSize,false);
+						}else{
+							that.getDROPSList(id,1,that.pageSize,false);
+						}
+					},
+					/**
+					 * 已下武器全部出售
+					 */
+					bindAramButton(type){
+						let that = this;
+						console.log(type)
+						that.armsSales();
+					},
+					/**
+					 * 出售武器
+					 */
+					armsSales(){
+						let that = this;
+						let id = that.userInfo.id;
+						
+						axios.post('http://121.36.199.219:8080/playerBoxArms/updatePlayerBoxArms',{id: id}).then(function (response) {							
+							that.dropType = 1
+						}).catch(function (reason) {
+							console.log(reason);
+						})
+					},
+					
+					/**
 					 * 个人中心tab点击
 					 */
 					bindTabButton(type){
 						let that = this;
 						
-						that.tabType = type
+						that.tabType = type;
+						
+						let id = that.userInfo.id;
+						
+						if(type == 1){
+							that.getDROPSList(id,1,that.pageSize,false);
+						}else{
+							that.getUpgradeList(id,1,4,false);
+						}
 					},
 					/**
 					 * 获取DROPS数据
@@ -1272,10 +1183,53 @@
 						
 						axios.post('http://121.36.199.219:8080/players/selectPlayerArms',{pageIndex:pageNum,pageSize:pageSize,id: id}).then(function (response) {
 							let list = response.data.body.armsList;
+							
+							
+							let totalPrice = 0;
+							let boxIds = [];
+							
+							list.forEach(function(item,index,array){
+								if(item.isStatus == 0){
+									totalPrice = Number(item.price) + totalPrice;
+								}
+							})
+							
+							that.totalPrice = totalPrice;
+							
 							that.totalPage = response.data.body.totalPages;
-						    that.boxes =  type ? that.boxes.concat(list):list;
+							that.pageNum = pageNum;
+							that.boxes =  type ? that.boxes.concat(list):list;
 						})
 					},
+					
+					/**
+					 * 获取升级数据
+					 */
+					getUpgradeList(id,pageNum,pageSize,type){
+						let that = this;
+						
+						axios.post('http://121.36.199.219:8080/playerBoxArms/selectUpRecord',{pageNum:pageNum,pageSize:pageSize,orderByField: "1",playerId: id}).then(function (response) {
+							let list = response.data.body.list;
+							that.totalPage = response.data.body.totalPages;
+							that.pageNum = pageNum;
+						    that.upgrades =  type ? that.upgrades.concat(list):list;
+						})
+					},
+					
+					/**
+					 * 加载升级
+					 */
+					bindLoadUpgrade(){
+						let that = this;
+						let id = that.userInfo.id;
+						let totalPage = that.totalPage;
+						let pageNum = that.pageNum;
+						if(Number(totalPage) != pageNum){
+							let num = pageNum + 1;
+							that.getUpgradeList(id,num,4,true);
+						}
+					},
+					
 					
 					/**
 					 * 加载DROPS
@@ -1402,7 +1356,6 @@
                     },
                     editSteamUrl(){
                         axios.post("http://121.36.199.219:8080/players/updatePlayersById",{id: vm.userInfo.id, steamUrl: document.getElementById('steamUrl_input').value}).then(function (response) {
-                            alert('修改成功！')
                             let oldUser = JSON.parse(window.sessionStorage.getItem('user'));
                             axios.post('http://121.36.199.219:8080/players/selectPlayerArms',{id: oldUser.id}).then(function (response) {
                                 console.log(response)
@@ -1411,7 +1364,7 @@
                             })
                             
                         }).catch(function (error) {
-                            alert(error);
+							
                         })
                     },
                     all: function() {
